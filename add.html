@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+        input{
+            display: block;
+            margin-block: 10px;
+            padding:5px;
+            outline:none
+        }
+    </style>
+</head>
+<body>
+<form action="addUser.php" method="post" >
+    <input type="text" name="userName">
+    <input type="password" name="userPassword">
+	<input type="number" name="userSalary" value="1200" min="1200" max="2500">
+    <input type="date" name="userAge">
+    <input type="submit" value="submit">
+</form>
+<hr>
+<!-- as this project just for learning, i will make anothe form below using pure js -->
+
+<form method="post" class="frmScript">
+    <input type="text" name="userNameJs" id="userNameJs">
+    <input type="password" name="userPasswordJs" id="userPasswordJs">
+	<input type="number" name="userSalaryJs" id="userSalaryJs" value="1200" min="1200" max="2500">
+    <input type="date" name="userAgeJs" id="userAgeJs">
+    <button id="addUser" type="submit">add new user</button>
+</form>
+<div class="resultAnswer"></div>
+<script>
+let btn = document.querySelector('#addUser');
+btn.addEventListener("click",async function(e){
+	e.preventDefault();
+	let nameData=document.querySelector('#userNameJs');
+	let passData=document.querySelector('#userPasswordJs');
+	let salaryData=document.querySelector('#userSalaryJs');
+	let ageData=document.querySelector('#userAgeJs');
+	
+	let data = {"name":nameData.value,
+	"password":passData.value,
+	"salary":salaryData.value,
+	"age":ageData.value}
+	
+
+	const sentData=await fetch("addUserJs.php",{
+	"method":"post",
+	"body":JSON.stringify(data),
+	/*	
+		"headers" :{
+			"Content-Type": "text/plain;charset=UTF-8"
+			}
+	*/	
+	})
+	
+	const output=await sentData.json();
+	console.log(output);
+	let resultAnswer=document.querySelector('.resultAnswer');
+	if(output.message==="ok")
+	window.location.replace("index.html");
+
+});
+
+</script>
+
+</body>
+</html>
